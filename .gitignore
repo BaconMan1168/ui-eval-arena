@@ -1,3 +1,9 @@
+# Claude / Codex project files
+CLAUDE.md
+AGENTS.md
+docs/
+.claude/
+
 # Logs
 logs
 *.log
