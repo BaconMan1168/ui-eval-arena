@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS generations (
 CREATE TABLE IF NOT EXISTS ratings (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   generation_id     UUID NOT NULL REFERENCES generations(id) ON DELETE CASCADE,
-  rating            TEXT NOT NULL CHECK (rating IN ('best', 'acceptable', 'poor')),
+  star_rating       NUMERIC(3,1) NOT NULL CHECK (star_rating >= 0.5 AND star_rating <= 5.0 AND star_rating * 2 = FLOOR(star_rating * 2)),
   rater_session_hash TEXT NOT NULL,
   timestamp         TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs'
+import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { Pool, neonConfig } from '@neondatabase/serverless'
 
@@ -13,9 +13,17 @@ async function main() {
   const client = await pool.connect()
 
   try {
-    const migration = readFileSync(join(process.cwd(), 'migrations/001_initial.sql'), 'utf8')
-    await client.query(migration)
-    console.log('Migration complete.')
+    const migrationsDir = join(process.cwd(), 'migrations')
+    const files = readdirSync(migrationsDir)
+      .filter((f) => f.endsWith('.sql'))
+      .sort()
+
+    for (const file of files) {
+      const sql = readFileSync(join(migrationsDir, file), 'utf8')
+      await client.query(sql)
+      console.log(`Ran ${file}`)
+    }
+    console.log('All migrations complete.')
   } finally {
     client.release()
     await pool.end()

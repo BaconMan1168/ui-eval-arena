@@ -1,0 +1,2 @@
+ALTER TABLE generations ADD COLUMN IF NOT EXISTS clip_score NUMERIC(5,4);
+ALTER TABLE generations ADD COLUMN IF NOT EXISTS clip_scored_at TIMESTAMPTZ;
