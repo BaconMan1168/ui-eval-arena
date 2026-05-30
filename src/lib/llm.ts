@@ -35,13 +35,13 @@ export async function generateWithClaude(
 export async function generateWithGemini(
   base64: string,
 ): Promise<{ model_name: string; html_output: string }> {
-  const model = googleAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+  const model = googleAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
   const result = await model.generateContent([
     { inlineData: { data: base64, mimeType: 'image/jpeg' } },
     PROMPT,
   ])
   const html = result.response.text()
-  return { model_name: 'gemini-2.0-flash', html_output: html }
+  return { model_name: 'gemini-2.5-flash', html_output: html }
 }
 
 export async function generateWithLlama(
