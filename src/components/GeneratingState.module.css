@@ -6,6 +6,11 @@
   padding: 3rem 2rem;
   width: 100%;
   max-width: 420px;
+  transition: opacity 0.2s ease;
+}
+
+.exiting {
+  opacity: 0;
 }
 
 .spinner {

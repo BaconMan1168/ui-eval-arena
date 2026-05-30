@@ -3,18 +3,22 @@
 import { useState } from 'react'
 import UploadZone from '@/components/UploadZone'
 import GeneratingState from '@/components/GeneratingState'
+import RatingView from '@/components/RatingView'
 import styles from './page.module.css'
 
-type Generation = { model_name: string; html_output: string }
+type Generation = { id: string; model_name: string; html_output: string }
 type AppState = 'upload' | 'generating' | 'done'
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>('upload')
+  const [isExiting, setIsExiting] = useState(false)
   const [generations, setGenerations] = useState<Generation[]>([])
   const [submissionId, setSubmissionId] = useState<string | null>(null)
+  const [previewImage, setPreviewImage] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(base64DataUri: string) {
+    setPreviewImage(base64DataUri)
     setAppState('generating')
     setError(null)
     try {
@@ -29,11 +33,22 @@ export default function Home() {
       }
       setGenerations(data.generations)
       setSubmissionId(data.submission_id)
-      setAppState('done')
+      setIsExiting(true)
+      setTimeout(() => {
+        setIsExiting(false)
+        setAppState('done')
+      }, 200)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
       setAppState('upload')
     }
+  }
+
+  function handleReset() {
+    setAppState('upload')
+    setGenerations([])
+    setSubmissionId(null)
+    setPreviewImage('')
   }
 
   return (
@@ -52,26 +67,15 @@ export default function Home() {
         </>
       )}
 
-      {appState === 'generating' && <GeneratingState />}
+      {appState === 'generating' && <GeneratingState isExiting={isExiting} />}
 
-      {appState === 'done' && (
-        <div className={styles.done}>
-          <p className={styles.doneTitle}>Generations complete</p>
-          <p className={styles.doneSubtitle}>
-            {generations.length} model{generations.length !== 1 ? 's' : ''} responded ·{' '}
-            <span className={styles.submissionId}>{submissionId}</span>
-          </p>
-          <ul className={styles.modelList}>
-            {generations.map((g) => (
-              <li key={g.model_name} className={styles.modelItem}>
-                {g.model_name}
-              </li>
-            ))}
-          </ul>
-          <button className={styles.resetButton} onClick={() => setAppState('upload')}>
-            Try another screenshot
-          </button>
-        </div>
+      {appState === 'done' && submissionId && (
+        <RatingView
+          generations={generations}
+          submissionId={submissionId}
+          previewImage={previewImage}
+          onReset={handleReset}
+        />
       )}
     </main>
   )

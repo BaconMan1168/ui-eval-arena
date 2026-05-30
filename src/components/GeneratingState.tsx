@@ -13,7 +13,7 @@ const MESSAGES = [
 
 const PROGRESS_DURATION_MS = 15_000
 
-export default function GeneratingState() {
+export default function GeneratingState({ isExiting }: { isExiting?: boolean }) {
   const [progress, setProgress] = useState(0)
   const [msgIndex, setMsgIndex] = useState(0)
   const [visible, setVisible] = useState(true)
@@ -41,7 +41,7 @@ export default function GeneratingState() {
   }, [])
 
   return (
-    <div className={styles.wrapper}>
+    <div className={[styles.wrapper, isExiting ? styles.exiting : ''].join(' ')}>
       <div className={styles.spinner} />
       <p className={[styles.message, visible ? styles.fadeIn : styles.fadeOut].join(' ')}>
         {MESSAGES[msgIndex]}
