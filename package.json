@@ -12,7 +12,11 @@
     "migrate": "tsx --env-file=.env.local scripts/migrate.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
+    "@google/generative-ai": "^0.24.1",
     "@neondatabase/serverless": "^0.10.4",
+    "@vercel/blob": "^2.4.0",
+    "groq-sdk": "^1.2.1",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"
