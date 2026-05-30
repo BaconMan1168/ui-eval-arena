@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     .digest('hex')
 
   const blob = await put(`screenshots/${Date.now()}.jpg`, buffer, {
-    access: 'public',
+    access: 'private',
     contentType: mimeType,
   })
 
@@ -66,6 +66,8 @@ export async function POST(req: NextRequest) {
         VALUES (${submission.id}, ${model_name}, ${html_output})
       `
       generations.push({ model_name, html_output })
+    } else {
+      console.error('[generation failed]', result.reason)
     }
   }
 
