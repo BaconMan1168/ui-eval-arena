@@ -57,15 +57,16 @@ export async function POST(req: NextRequest) {
     generateWithLlama(base64),
   ])
 
-  const generations: { model_name: string; html_output: string }[] = []
+  const generations: { id: string; model_name: string; html_output: string }[] = []
   for (const result of results) {
     if (result.status === 'fulfilled') {
       const { model_name, html_output } = result.value
-      await sql`
+      const [gen] = await sql`
         INSERT INTO generations (submission_id, model_name, html_output)
         VALUES (${submission.id}, ${model_name}, ${html_output})
+        RETURNING id
       `
-      generations.push({ model_name, html_output })
+      generations.push({ id: gen.id, model_name, html_output })
     } else {
       console.error('[generation failed]', result.reason)
     }
