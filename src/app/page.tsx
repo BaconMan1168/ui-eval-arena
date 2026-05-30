@@ -72,7 +72,6 @@ export default function Home() {
       {appState === 'done' && submissionId && (
         <RatingView
           generations={generations}
-          submissionId={submissionId}
           previewImage={previewImage}
           onReset={handleReset}
         />

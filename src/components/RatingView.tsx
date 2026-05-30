@@ -24,7 +24,6 @@ interface AccordionState {
 
 interface RatingViewProps {
   generations: Generation[]
-  submissionId: string
   previewImage: string
   onReset: () => void
 }
@@ -47,7 +46,7 @@ function shuffle<T>(arr: T[]): T[] {
   return out
 }
 
-export default function RatingView({ generations, submissionId: _submissionId, previewImage, onReset }: RatingViewProps) {
+export default function RatingView({ generations, previewImage, onReset }: RatingViewProps) {
   const [visible, setVisible] = useState(false)
   const [ratings, setRatings] = useState<Record<string, number | null>>(
     () => Object.fromEntries(generations.map((g) => [g.id, null]))
