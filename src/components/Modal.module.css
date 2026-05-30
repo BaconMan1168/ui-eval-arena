@@ -1,0 +1,44 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+}
+
+.label {
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: center;
+}
+
+.image {
+  object-fit: contain;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  border-radius: 8px;
+  display: block;
+}
+
+.iframe {
+  width: 90vw;
+  height: 85vh;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+}
