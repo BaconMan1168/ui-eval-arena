@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import UploadZone from '@/components/UploadZone'
 import GeneratingState from '@/components/GeneratingState'
 import RatingView from '@/components/RatingView'
@@ -58,6 +59,7 @@ export default function Home() {
         <p className={styles.subtitle}>
           Upload a UI screenshot and compare how three AI models recreate it.
         </p>
+        <Link href="/leaderboard" className={styles.leaderboardLink}>View leaderboard →</Link>
       </header>
 
       {appState === 'upload' && (

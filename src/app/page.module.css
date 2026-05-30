@@ -26,6 +26,24 @@
   max-width: 420px;
 }
 
+.leaderboardLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.leaderboardLink:hover {
+  color: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  .leaderboardLink { color: #8b949e; }
+  .leaderboardLink:hover { color: #e6edf3; }
+}
+
 .error {
   font-size: 0.875rem;
   color: #ef4444;
