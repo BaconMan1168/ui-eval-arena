@@ -2,6 +2,10 @@ import Anthropic from '@anthropic-ai/sdk'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import Groq from 'groq-sdk'
 
+function stripFences(text: string): string {
+  return text.replace(/^```[a-z]*\n?/i, '').replace(/\n?```$/i, '').trim()
+}
+
 const PROMPT =
   'You are given a screenshot of a UI. Generate a complete, self-contained HTML file with inline CSS that visually replicates this UI as closely as possible. Output only the HTML — no explanation, no markdown, no code fences.'
 
@@ -28,8 +32,8 @@ export async function generateWithClaude(
       },
     ],
   })
-  const html = message.content.find((b) => b.type === 'text')?.text ?? ''
-  return { model_name: 'claude-haiku-4-5', html_output: html }
+  const raw = message.content.find((b) => b.type === 'text')?.text ?? ''
+  return { model_name: 'claude-haiku-4-5', html_output: stripFences(raw) }
 }
 
 export async function generateWithGemini(
@@ -40,7 +44,7 @@ export async function generateWithGemini(
     { inlineData: { data: base64, mimeType: 'image/jpeg' } },
     PROMPT,
   ])
-  const html = result.response.text()
+  const html = stripFences(result.response.text())
   return { model_name: 'gemini-2.5-flash', html_output: html }
 }
 
@@ -64,6 +68,6 @@ export async function generateWithLlama(
       },
     ],
   })
-  const html = completion.choices[0]?.message?.content ?? ''
+  const html = stripFences(completion.choices[0]?.message?.content ?? '')
   return { model_name: 'llama-4-scout', html_output: html }
 }
