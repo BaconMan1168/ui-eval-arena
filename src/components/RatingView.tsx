@@ -121,7 +121,7 @@ export default function RatingView({ generations, previewImage, onReset }: Ratin
                   >
                     <iframe
                       srcDoc={gen.html_output}
-                      sandbox="allow-same-origin"
+                      sandbox=""
                       className={styles.iframe}
                       title={blindLabel}
                     />

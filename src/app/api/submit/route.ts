@@ -40,6 +40,15 @@ export async function POST(req: NextRequest) {
     .update(ip + (process.env.SESSION_SALT ?? 'dev'))
     .digest('hex')
 
+  const [{ count }] = await sql`
+    SELECT COUNT(*) as count FROM submissions
+    WHERE session_hash = ${sessionHash}
+    AND timestamp > NOW() - INTERVAL '1 hour'
+  `
+  if (Number(count) >= 3) {
+    return NextResponse.json({ error: 'Rate limit exceeded. Try again in an hour.' }, { status: 429 })
+  }
+
   const blob = await put(`screenshots/${Date.now()}.jpg`, buffer, {
     access: 'private',
     contentType: mimeType,

@@ -28,7 +28,7 @@ export default function Modal({ type, src, label, onClose }: ModalProps) {
         ) : (
           <iframe
             srcDoc={src}
-            sandbox="allow-same-origin"
+            sandbox=""
             className={styles.iframe}
             title={label}
           />
